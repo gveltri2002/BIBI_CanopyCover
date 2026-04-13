@@ -4,9 +4,16 @@
 # Goal: Initial exploration of canopy cover data for 2025 sampling year
 # === === === === === === === === === === === === === === === 
 
-#### PREP WORK ####
+#### Prep Work ####
 
 # Load Packages
+library(tidyverse)
+library(readxl)
+library(here)
 
 # Import Data
+df <- read_excel("data/ISP_canopy_cover_for_Gabe.xlsx",
+              sheet = "data")
+
+#### Basic Stats ####
 
