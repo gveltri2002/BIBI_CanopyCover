@@ -17,3 +17,40 @@ df <- read_excel("data/ISP_canopy_cover_for_Gabe.xlsx",
 
 #### Basic Stats ####
 
+## Get Mean and SD for Shade at ISP Sites => ALL, LB, RB, Center 
+
+# Mean
+mean <- df %>% 
+  group_by(ISP_COMID) %>% 
+  summarise(All = mean(c(Left_bank, Center_US, Center_DS, Center_RB, Center_LB, Right_bank)),
+            LB = mean(Left_bank),
+            Center = mean(c(Center_US, Center_DS, Center_RB, Center_LB)),
+            RB = mean(Right_bank))
+
+# Standard Deviation
+sd <- df %>% 
+  group_by(ISP_COMID) %>% 
+  summarise(All = sd(c(Left_bank, Center_US, Center_DS, Center_RB, Center_LB, Right_bank)),
+            LB = sd(Left_bank),
+            Center = sd(c(Center_US, Center_DS, Center_RB, Center_LB)),
+            RB = sd(Right_bank))
+
+## Tables
+# Mean
+long_mean <- mean %>% 
+  pivot_longer(2:5,
+               names_to = "Location",
+               values_to = "Mean")
+# Standard Deviation
+long_sd <- sd %>% 
+  pivot_longer(2:5,
+               names_to = "Location",
+               values_to = "SD")
+
+# Combined
+long_both <- right_join(long_mean,long_sd)
+
+
+## Visualization
+
+
