@@ -49,22 +49,26 @@ long_sd <- sd %>%
 
 # Combined
 long_both <- right_join(long_mean,long_sd)
+long_both <- long_both %>% 
+  rename(Canopy_Mean = Mean,
+         Canopy_SD = SD)
 
+write.csv(long_both,"Data/canopy_avg.csv", row.names = FALSE)
 
 #### Visualization ####
 # Each site shown together
-ggplot(long_both, aes(x = Location, y = Mean, fill = Location)) + 
+ggplot(long_both, aes(x = Location, y = Canopy_Mean, fill = Location)) + 
   geom_bar(position = position_dodge(), stat ="identity",
            colour='black') +
   facet_wrap(~ISP_COMID) +
-  geom_errorbar(aes(ymin = Mean-SD, ymax = Mean+SD), width=.2)
+  geom_errorbar(aes(ymin = Canopy_Mean - Canopy_SD, ymax = Canopy_Mean + Canopy_SD), width=.2)
 
 
-# Each metric shown together
-ggplot(long_both, aes(x = ISP_COMID, y = Mean, fill = Location)) + 
+# Each metric shown together => shows average canopy cover at each site grouped by the different metrics (ALL, LB, RB, Center)
+ggplot(long_both, aes(x = ISP_COMID, y = Canopy_Mean, fill = Location)) + 
   geom_bar(position = position_dodge(), stat ="identity",
            colour='black') +
   facet_wrap(~Location) +
-  geom_errorbar(aes(ymin = Mean-SD, ymax = Mean+SD), width=.2) +
+  geom_errorbar(aes(ymin = Canopy_Mean - Canopy_SD, ymax = Canopy_Mean + Canopy_SD), width=.2) +
   theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
 
