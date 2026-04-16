@@ -1,7 +1,7 @@
 # === === === === === === === === === === === === === === ===  
 # Created by Gabe Veltri 4/12/2026
 # Project: CanopyCover
-# Goal: Initial exploration of canopy cover data for 2025 sampling year
+# Goal: Gathering mean and SD values for shade cover at ISP sites, additonally create visualizations at the end
 # === === === === === === === === === === === === === === === 
 
 #### Prep Work ####
@@ -51,7 +51,7 @@ long_sd <- sd %>%
 long_both <- right_join(long_mean,long_sd)
 
 
-## Visualization
+#### Visualization ####
 # Each site shown together
 ggplot(long_both, aes(x = Location, y = Mean, fill = Location)) + 
   geom_bar(position = position_dodge(), stat ="identity",
