@@ -36,9 +36,38 @@ width_all <- right_join(width_mean,width_sd)
 #### Combining Data ####
 merged_df <- merge(canopy_avg, width_all, by = "ISP_COMID", all.x = TRUE)
 
+## Basin Metrics ##
+basin <- df %>% 
+  select(2:6)
+
+basin_merged <- merge(merged_df, basin, by = "ISP_COMID", all.x = TRUE)
+
 #### Visualizations ####
 
-## Wetted Width
+## Wetted Width vs. Canopy
+ggplot(basin_merged, aes(x = Avg_Wetted_width_m, y = Canopy_Mean)) +
+  geom_point() +
+  facet_wrap(~Location)
 
+# Bankful Width vs. Canopy
+ggplot(basin_merged, aes(x = Avg_Bankful_width_m, y = Canopy_Mean)) +
+  geom_point() +
+  facet_wrap(~Location)
 
+# Basin Size vs. Canopy
+ggplot(basin_merged, aes(x = WS_Area_KM2, y = Canopy_Mean)) +
+  geom_point() +
+  facet_wrap(~Location)
+
+# So far what I am seeing which makes sense:  
+##### The banks vary very little => often was very DENSE brush so a 17
+##### The center varies the most => wider streams mean less canopy cover
+
+# Exploration
+ggplot(basin_merged, aes(x = WS_forest_percent, y = Canopy_Mean)) +
+  geom_point() +
+  facet_wrap(~Location)
+
+ggplot(basin_merged, aes(x = WS_Area_KM2, y = WS_forest_percent)) +
+  geom_point()
   
